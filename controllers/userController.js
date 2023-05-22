@@ -1,27 +1,35 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
-const user = require('../models/userModel')
+import bcrypt  from 'bcrypt'
+import jwt  from 'jsonwebtoken';
+import {userModel}  from '../models/userModel.js';
+import { catchAsync }  from '../utils/catchAsync.js';
+// import AppError  from ('../utils/AppError');
+import {AppError} from '../utils/AppError.js'
+import { DB_E_0001 }  from '../config/responseCodes/db.js';
 
-exports.register = async (req, res) => {
-    try {
+const register = catchAsync(async (req, res) => {
+    // try {
         const { email, password } = req.body;
+        // const data = await userModel.findOne({ where: { email } });
+        // console.log(Email)
+        // const appError = new AppError()
+        // if (data) throw new AppError(DB_E_0001)
 
         const hashedPass = await bcrypt.hash(password, 10);
 
-        await user.create({ email, password: hashedPass })
+        await userModel.create({ email, password: hashedPass })
         res.status(200).send({
             success: true,
             message: "User created successfully"
         })
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).send({ success: false, message: "something went wrong while creating user" })
-    }
-}
-exports.login = async (req, res) => {
+    // } catch (error) {
+    //     console.log(error)
+    //     res.status(500).send({ success: false, message: "something went wrong while creating user" })
+    // }
+})
+const login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
-    const data = await user.findOne({ where: { email } })
+    const data = await userModel.findOne({ where: { email } })
     if (!data) {
         return res.status(401).send({
             success: false,
@@ -42,4 +50,7 @@ exports.login = async (req, res) => {
         message: "you are logged in!!",
         token
     })
-}
+})
+
+
+export {register,login}

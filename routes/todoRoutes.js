@@ -1,12 +1,15 @@
-const { createTodo, updateTodo, deleteTodo, getTodo} = require("../controllers/todoController");
-const authMiddleware = require("../middleware/authMiddleware");
+import { createTodo, updateTodo, deleteTodo, getTodo} from "../controllers/todoController.js";
+import {authMiddleware} from "../middleware/authMiddleware.js";
 
-const router = require("express").Router();
+// import {router as todoRouter} from "express";
+import { Router } from "express";
+const todoRouter = Router()
+// todoRouter.Router()
 
-router.post("/create-todo",createTodo);
-router.get("/todo", getTodo);
-router.patch("/update-todo/:id",authMiddleware,updateTodo);
-router.delete("/delete-todo/:id",authMiddleware,deleteTodo);
+todoRouter.post("/create-todo",createTodo);
+todoRouter.get("/todo", getTodo);
+todoRouter.patch("/update-todo/:id",authMiddleware,updateTodo);
+todoRouter.delete("/delete-todo/:id",authMiddleware,deleteTodo);
 
-module.exports = router
+export {todoRouter}
 

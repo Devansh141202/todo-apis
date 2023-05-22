@@ -1,9 +1,10 @@
-const express = require("express")
-const Server = require('./server')
+import express from "express"
+import {server} from './server.js'
 const app = express();
-require('dotenv').config({path:'config/.env'})
-require('./db/database')
-new Server(app)
+import dotenv from 'dotenv'
+dotenv.config({path:'config/.env'})
+import './db/database.js'
+new server(app)
 
 app.listen(8000, () => {
     console.log(`server is running on ${process.env.PORT}`)

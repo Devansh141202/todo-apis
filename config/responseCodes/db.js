@@ -1,6 +1,6 @@
-import { RESPONSE_TYPE } from '../../types/global.types'
+import {RESPONSE_TYPE} from '../../types/global.types.js'
 
-export const DB_E_0001 = {
+const DB_E_0001 = {
     type: RESPONSE_TYPE.ERROR,
     code: 'DB_E_0001',
     isNotify: false,
@@ -8,7 +8,7 @@ export const DB_E_0001 = {
     statusCode: 500,
 }
 
-export const DB_E_0002 = {
+const DB_E_0002 = {
     type: RESPONSE_TYPE.ERROR,
     code: 'DB_E_0002',
     isNotify: false,
@@ -16,10 +16,11 @@ export const DB_E_0002 = {
     statusCode: 404,
 }
 
-export const DB_E_0003 = {
+const DB_E_0003 = {
     type: RESPONSE_TYPE.ERROR,
     code: 'DB_E_0003',
     isNotify: false,
     message: 'Database error',
     statusCode: 500,
 }
+export {DB_E_0001, DB_E_0002, DB_E_0003}

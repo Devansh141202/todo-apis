@@ -1,29 +1,31 @@
-export enum RESPONSE_TYPE {
-    SUCCESS = 'SUCCESS',
-    ERROR = 'ERROR',
-    INFO = 'INFO',
+const RESPONSE_TYPE = {
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR',
+    INFO: 'INFO',
+}
+const TResponseCode = {
+    code: '',
+    message: '',
+    isNotify: '',
+    type: '',
+    statusCode: '',
 }
 
-export type TResponseCode = {
-    code: string
-    message: string
-    isNotify: boolean
-    type: RESPONSE_TYPE
-    statusCode: number
-}
+const User = {
+    entrepreneurId: '',
+    name: '',
+    email: '',
+    phone: null,
+    isEmailVerified: undefined,
+    isPhoneVerified: undefined
+};
 
-export type User = {
-    entrepreneurId: string
-    name: string
-    email: string
-    phone: string | null
-    isEmailVerified?: boolean
-    isPhoneVerified?: boolean
-}
+const TInvestor = {
+    investorId: '',
+    name: '',
+    email: '',
+    phone: null
+};
 
-export type TInvestor = {
-    investorId: string
-    name: string
-    email: string
-    phone: string | null
-}
+
+export {RESPONSE_TYPE, TResponseCode, User,TInvestor}

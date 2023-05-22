@@ -1,9 +1,12 @@
-const cors = require('cors')
-const express = require('express')
-const morgan = require('morgan')
-const userRouter = require('./routes/userRoutes')
-const todoRouter = require('./routes/todoRoutes')
-const bodyParser = require('body-parser')
+import cors from 'cors'
+import express from 'express'
+import morgan from 'morgan'
+// import router from './routes/userRoutes.js'
+import {todoRouter} from './routes/todoRoutes.js'
+
+import bodyParser from 'body-parser'
+import { errorHandler } from './utils/errorHandler.js'
+import { userRouter } from './routes/userRoutes.js'
 
 class server {
     constructor(app) {
@@ -26,7 +29,7 @@ class server {
                 message:"Route not found"
             });
         });
-
+        app.use(errorHandler)
     }
 }
-module.exports = server
+export {server}

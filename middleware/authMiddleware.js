@@ -1,27 +1,17 @@
 // const jwt = require("jsonwebtoken");
 import jwt from "jsonwebtoken"
+import { catchAsync } from "../utils/catchAsync.js"
+import { errorHandler } from "../utils/errorHandler.js";
+import { GENERAL_E_0010 } from "../config/responseCodes/general.js";
 
-const authMiddleware = async (req, res, next) => {
-  try {
-    const token = req.headers["authorization"].split(" ")[1];
-    // console.log({token});
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({
-          message: "Auth failed",
-          success: false,
-        });
-      } else {
-        req.body.userId = decoded.id;
-        next();
-      }
-    });
-
-  } catch (error) {
-    return res.status(401).send({
-      message: "Auth failed before executing",
-      success: false,
-    });
-  }
-};
-export {authMiddleware}
+const authMiddleware = catchAsync(async (req, res, next) => {
+  const token = req.headers["authorization"].split(" ")[1];
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return errorHandler(res, GENERAL_E_0010)
+    else {
+      req.body.userId = decoded.id;
+      next();
+    }
+  });
+});
+export { authMiddleware }

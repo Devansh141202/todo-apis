@@ -6,6 +6,9 @@ import { catchAsync }  from '../utils/catchAsync.js';
 import {AppError} from '../utils/AppError.js'
 import { DB_E_0001 }  from '../config/responseCodes/db.js';
 import { responseHandler } from '../utils/responseHandler.js';
+import { errorHandler } from '../utils/errorHandler.js';
+import { GENERAL_E_0007, GENERAL_E_0013 } from '../config/responseCodes/general.js';
+import { SUCCESS_S_0005 } from '../config/responseCodes/success.js';
 
 const register = catchAsync(async (req, res) => {
         const { email, password } = req.body;
@@ -20,26 +23,12 @@ const register = catchAsync(async (req, res) => {
 const login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
     const data = await userModel.findOne({ where: { email } })
-    if (!data) {
-        return res.status(401).send({
-            success: false,
-            message: "User Not found"
-        })
-    }
+    if (!data) return errorHandler(res,GENERAL_E_0007);
     const isPassValid = await bcrypt.compare(password, data.password);
 
-    if (!isPassValid) {
-        return res.status(401).send({
-            success: false,
-            message: "Authentication fail!!"
-        })
-    }
+    if (!isPassValid) return errorHandler(res, GENERAL_E_0013) 
     const token = jwt.sign({ userId: data.id }, process.env.JWT_SECRET, { expiresIn: '30m' })
-    res.status(200).send({
-        success: true,
-        message: "you are logged in!!",
-        token
-    })
+    return errorHandler(res, SUCCESS_S_0005, token)
 })
 
 

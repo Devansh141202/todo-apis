@@ -1,5 +1,6 @@
 import { todoModel } from '../models/todoModel.js'
 import { catchAsync } from '../utils/catchAsync.js'
+import { Op } from 'sequelize';
 
 const createTodo = catchAsync(async (req, res) => {
     const data = req.body;
@@ -12,10 +13,28 @@ const createTodo = catchAsync(async (req, res) => {
 })
 
 const getTodo = catchAsync(async (req, res) => {
-    const { page, limit } = req.query;
+    const { page, limit, startDate, endDate } = req.query;
     const offset = (page - 1) * limit;
     const size = parseInt(limit)
+
+    const dataFilter = {};
+    if (startDate && endDate) {
+        dataFilter.dueDate = {
+            [Op.between]: [startDate, endDate]
+        }
+    }
+    else if (startDate) {
+        dataFilter.dueDate = {
+            [Op.gte]: startDate,
+        };
+    } else if (endDate) {
+        dataFilter.dueDate = {
+            [Op.lte]: endDate,
+        };
+    }
+
     const count = await todoModel.findAll({
+        where:dataFilter,
         offset,
         limit: size,
     });

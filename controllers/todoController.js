@@ -6,6 +6,7 @@ import { SUCCESS_S_0001, SUCCESS_S_0002, SUCCESS_S_0003, SUCCESS_S_0004 } from '
 import { DB_E_0002 } from '../config/responseCodes/db.js';
 import { errorHandler } from '../utils/errorHandler.js';
 import { GENERAL_E_0008 } from '../config/responseCodes/general.js';
+import { AppError } from '../utils/AppError.js';
 
 const createTodo = catchAsync(async (req, res) => {
     const data = req.body;
@@ -34,12 +35,12 @@ const getTodo = catchAsync(async (req, res) => {
         };
     }
 
-    const count = await todoModel.findAll({
+    const todos = await todoModel.findAll({
         where: dataFilter,
         offset,
         limit: size,
     });
-    return responseHandler(res, SUCCESS_S_0002, count);
+    return responseHandler(res, SUCCESS_S_0002, todos);
 
 })
 const updateTodo = catchAsync(async (req, res) => {
@@ -47,22 +48,31 @@ const updateTodo = catchAsync(async (req, res) => {
     const { title, description, dueDate } = req.body;
 
     const todo = await todoModel.findOne({ where: { id: todoId } });
-    if (!todo) return errorHandler(res, GENERAL_E_0008);
-    todo.title = title || todo.title
-    todo.description = description || todo.description
-    todo.dueDate = dueDate || todo.dueDate
-    await todo.save();
-    return responseHandler(res, SUCCESS_S_0003);
+    if (!todo) {
+        // console.log("")
+        console.log("error in todocontroller")
+        throw new AppError(GENERAL_E_0008)
+    }
+    else {
+        todo.title = title || todo.title
+        todo.description = description || todo.description
+        todo.dueDate = dueDate || todo.dueDate
+        await todo.save();
+        return responseHandler(res, SUCCESS_S_0003);
+    }
+
 })
 
 const deleteTodo = catchAsync(async (req, res) => {
     const todoId = req.params.id;
 
     const todo = await todoModel.findOne({ where: { id: todoId } })
-    if (!todo) return responseHandler(res, DB_E_0002);
+    if (!todo) throw new AppError(DB_E_0002)
+    else {
+        const deletedTodo = await todo.destroy();
+        return responseHandler(res, SUCCESS_S_0004, deletedTodo);
+    }
 
-    await todo.destroy();
-    return responseHandler(res, SUCCESS_S_0004);
 })
 
 export { createTodo, getTodo, updateTodo, deleteTodo }

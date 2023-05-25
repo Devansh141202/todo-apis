@@ -7,9 +7,9 @@ const todoRouter = Router()
 // todoRouter.Router()
 
 todoRouter.post("/create-todo",createTodo);
-todoRouter.get("/todo", getTodo);
-todoRouter.patch("/update-todo/:id",authMiddleware,updateTodo);
-todoRouter.delete("/delete-todo/:id",authMiddleware,deleteTodo);
+todoRouter.get("/todo",getTodo);
+todoRouter.patch("/update-todo/:id",updateTodo);
+todoRouter.delete("/delete-todo/:id",deleteTodo);
 
 export {todoRouter}
 

@@ -1,10 +1,12 @@
 import Sequelize from 'sequelize';
 import {responseHandler} from './responseHandler.js';
 
-import { DB_E_0001, DB_E_0002, DB_E_0003 } from '../config/responseCodes/db.js';
+import { DB_E_0001, DB_E_0003 } from '../config/responseCodes/db.js';
+import { AppError } from './AppError.js';
+import { GENERAL_E_0014 } from '../config/responseCodes/general.js';
 
-export const errorHandler = (err, req, res, next) => {
-    console.log(err)
+const errorHandler = (err, req, res, next) => {
+    // console.log(err)
     if (err instanceof Sequelize.DatabaseError) {
         return responseHandler(res, DB_E_0003);
     }
@@ -15,6 +17,10 @@ export const errorHandler = (err, req, res, next) => {
         return responseHandler(res, DB_E_0001);
     }
     // return next(err);
-    return responseHandler(res,DB_E_0002)
+    if(err instanceof AppError){
+        return responseHandler(res,err)
+    }
+    // console.log(err)
+    return responseHandler(res, GENERAL_E_0014)
 };
-// export {errorHandler}
+export {errorHandler}

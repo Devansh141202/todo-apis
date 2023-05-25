@@ -1,12 +1,13 @@
 import {Sequelize, DataTypes} from 'sequelize' 
 import dotenv from "dotenv"
+import { dbHost, dbName, dbPasswrod, dbUser, minConn, mxConn } from '../config/const.js';
 dotenv.config({path:'config/.env'})
 
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
+const sequelize = new Sequelize(dbName, dbUser, dbPasswrod, {
+    host: dbHost,
     dialect: 'mysql',
     pool: {
-        max: 5, min: 0
+        max: mxConn, min: minConn
     },
     define:{
         timestamps:false

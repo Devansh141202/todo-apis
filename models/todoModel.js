@@ -18,5 +18,5 @@ const todoModel = sequelize.define('todo',{
         type: DataTypes.DATE,
         allowNull: true,
       },
-}) 
+},{freezeTableName:true}) 
 export {todoModel}

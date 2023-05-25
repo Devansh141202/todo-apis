@@ -31,8 +31,15 @@ export const SUCCESS_S_0004 = {
 }
 export const SUCCESS_S_0005 = {
     type: RESPONSE_TYPE.SUCCESS,
-    code: 'SUCCESS_S_0004',
+    code: 'SUCCESS_S_0005',
     isNotify: false,
     message: 'you are logged in!!',
+    statusCode: 201,
+}
+export const SUCCESS_S_0006 = {
+    type: RESPONSE_TYPE.SUCCESS,
+    code: 'SUCCESS_S_0006',
+    isNotify: false,
+    message: 'User created successfully!!',
     statusCode: 201,
 }

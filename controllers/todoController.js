@@ -9,8 +9,8 @@ import { GENERAL_E_0008 } from '../config/responseCodes/general.js';
 import { AppError } from '../utils/AppError.js';
 
 const createTodo = catchAsync(async (req, res) => {
-    const data = req.body;
-    const todo = await todoModel.create(data);
+    const {title, description, dueDate} = req.body;
+    const todo = await todoModel.create({title, description, dueDate});
     return responseHandler(res, SUCCESS_S_0001, todo)
 })
 

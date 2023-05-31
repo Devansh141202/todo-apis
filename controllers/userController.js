@@ -6,7 +6,7 @@ import { AppError } from '../utils/AppError.js'
 import { DB_E_0001 } from '../config/responseCodes/db.js';
 import { responseHandler } from '../utils/responseHandler.js';
 import { errorHandler } from '../utils/errorHandler.js';
-import { GENERAL_E_0007, GENERAL_E_0013 } from '../config/responseCodes/general.js';
+import { GENERAL_E_0007, GENERAL_E_0013, GENERAL_E_0015 } from '../config/responseCodes/general.js';
 import { SUCCESS_S_0005, SUCCESS_S_0006 } from '../config/responseCodes/success.js';
 import { expireTokenIn, secretKey } from '../config/const.js';
 
@@ -30,7 +30,7 @@ const login = catchAsync(async (req, res) => {
     else {
         const isPassValid = await bcrypt.compare(password, data.password);
 
-        if (!isPassValid) return errorHandler(res, GENERAL_E_0013)
+        if (!isPassValid) throw new AppError(GENERAL_E_0015)
         else {
             const token = jwt.sign({ userId: data.id }, secretKey, { expiresIn: expireTokenIn})
             return responseHandler(res, SUCCESS_S_0005, token)

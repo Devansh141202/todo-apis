@@ -53,7 +53,7 @@ const GENERAL_E_0007 = {
     code: 'GENERAL_E_0007',
     isNotify: false,
     message: 'User not found!!',
-    statusCode: 404,
+    statusCode: 401,
 }
 
 // const GENERAL_E_0008 = {
@@ -117,5 +117,12 @@ const GENERAL_E_0014 = {
     message: 'Something went wrong!!',
     statusCode: 400,
 }
+const GENERAL_E_0015 = {
+    type: RESPONSE_TYPE.ERROR,
+    code: 'GENERAL_E_0015',
+    isNotify: false,
+    message: 'Invalid Credentials!!',
+    statusCode: 401,
+}
 
-export {GENERAL_E_0001, GENERAL_E_0002, GENERAL_E_0003, GENERAL_E_0004, GENERAL_E_0005, GENERAL_E_0006, GENERAL_E_0007, GENERAL_E_0008, GENERAL_E_0009, GENERAL_E_0010, GENERAL_E_0011, GENERAL_E_0012, GENERAL_E_0013, GENERAL_E_0014}
+export {GENERAL_E_0001, GENERAL_E_0002, GENERAL_E_0003, GENERAL_E_0004, GENERAL_E_0005, GENERAL_E_0006, GENERAL_E_0007, GENERAL_E_0008, GENERAL_E_0009, GENERAL_E_0010, GENERAL_E_0011, GENERAL_E_0012, GENERAL_E_0013, GENERAL_E_0014, GENERAL_E_0015}
